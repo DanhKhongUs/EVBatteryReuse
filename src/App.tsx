@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
@@ -8,30 +13,44 @@ import Account from "./pages/Account";
 import Address from "./pages/Address";
 import Profile from "./pages/Profile";
 import TransactionHistory from "./pages/TransactionHistory";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetail from "./components/ProductDetail";
 import Cart from "./pages/CartPage/Cart";
 import Checkout from "./pages/CartPage/CheckOut";
+import ProductPage from "./pages/ProductPage";
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const hideFooterPaths = ["/"];
+
+  const shouldShowFooter = !hideFooterPaths.includes(location.pathname);
+
   return (
-    <Router>
+    <>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/products" element={<ProductPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/cart/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="checkOut" element={<Checkout />} />
+        <Route path="/checkOut" element={<Checkout />} />
         <Route path="/account" element={<Account />}>
           <Route index element={<Profile />} />
           <Route path="address" element={<Address />} />
           <Route path="transactionHistory" element={<TransactionHistory />} />
         </Route>
       </Routes>
-      <Footer />
-    </Router>
+
+      {shouldShowFooter && <Footer />}
+    </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}

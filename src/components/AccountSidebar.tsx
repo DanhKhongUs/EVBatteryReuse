@@ -56,7 +56,7 @@ export default function AccountSidebar() {
         </div>
         <button
           onClick={handleAvatarClick}
-          className="absolute bottom-16 right-16 -translate-x-0 -translate-y-0 bg-white border border-gray-300 rounded-full p-1 text-gray-600 hover:bg-gray-50 shadow-sm"
+          className="absolute hidden md:flex md:bottom-[60px] md:right-[60px] lg:bottom-16 lg:right-16 -translate-x-0 -translate-y-0 bg-white border border-gray-300 rounded-full p-1 text-gray-600 hover:bg-gray-50 shadow-sm"
         >
           <FontAwesomeIcon icon={faCamera} size="lg" />
         </button>

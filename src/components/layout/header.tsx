@@ -1,15 +1,29 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faCartShopping,
+  faTimes,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import Search from "../Search";
 import * as Popover from "@radix-ui/react-popover";
 import { useUserProfile } from "../../hooks/useUserProfile";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { useCart } from "../../context/ProductContext";
 
 export default function Header() {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const { cart, removeFromCart } = useCart();
+
+  const total = cart.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0
+  );
 
   const { avatar, currentUser, setCurrentUser } = useUserProfile();
 
@@ -37,13 +51,21 @@ export default function Header() {
           <FontAwesomeIcon icon={faBars} />
         </button>
 
-        <Link to="/" className="md:px-10 ml-12 flex-shrink-0 cursor-pointer">
-          <img
-            src="/logo.svg"
-            alt="Logo"
-            className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover shadow-md bg-gradient-to-tr from-blue-500 to-purple-600 p-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg"
-          />
-        </Link>
+        <div className="flex items-center gap-8">
+          <Link to="/" className="md:px-10 ml-12 flex-shrink-0 cursor-pointer">
+            <img
+              src="/logo.svg"
+              alt="Logo"
+              className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover shadow-md bg-gradient-to-tr from-blue-500 to-purple-600 p-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg"
+            />
+          </Link>
+
+          <Link to="/products" className="hidden lg:flex">
+            <span className="text-lg font-semibold hover:underline">
+              Sản phẩm
+            </span>
+          </Link>
+        </div>
 
         {/* Actions */}
         <div className="flex items-center gap-5">
@@ -51,9 +73,95 @@ export default function Header() {
           <div className="hidden md:block mr-8">
             <Search />
           </div>
+          <div className="flex gap-2 lg:gap-8">
+            <Popover.Root>
+              <Popover.Trigger asChild>
+                <button className="relative">
+                  <FontAwesomeIcon icon={faCartShopping} size="xl" />
+                  {cart.length > 0 && (
+                    <span className="absolute -top-2 right-[-8px] bg-pink-700 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
+                      {cart.length}
+                    </span>
+                  )}
+                </button>
+              </Popover.Trigger>
+              <Popover.Content
+                align="end"
+                sideOffset={8}
+                className="bg-white rounded-lg shadow-xl border w-80 p-5 z-50"
+              >
+                {cart.length > 0 ? (
+                  <>
+                    <div className="max-h-80 overflow-y-auto space-y-4">
+                      {cart.map((item) => (
+                        <div key={item.product.id}>
+                          <div className="flex items-start gap-4 border-b pb-4">
+                            <Link to={`cart/${item.product.id}`}>
+                              <img
+                                src={item.product.img}
+                                alt={item.product.name}
+                                className="w-16 h-16 object-cover rounded-lg"
+                              />
+                            </Link>
+                            <div className="flex-1 space-y-1">
+                              <Link to={`cart/${item.product.id}`}>
+                                <h4 className="font-semibold text-gray-700 hover:text-gray-900">
+                                  {item.product.name}
+                                </h4>
+                                <p className="text-gray-500">
+                                  {item.quantity} ×{" "}
+                                  {item.product.price.toLocaleString()}₫
+                                </p>
+                              </Link>
+                            </div>
+                            <button
+                              onClick={() => removeFromCart(item.product.id)}
+                              className="text-gray-400 hover:text-gray-500"
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex justify-between border-t pt-4 font-semibold">
+                      <span>Tổng cộng:</span>
+                      <span className="text-black">
+                        {total.toLocaleString()}₫
+                      </span>
+                    </div>
+
+                    <div className="mt-4 flex flex-col gap-2">
+                      <Link to="cart">
+                        <button className="w-full bg-pink-600 text-white py-2 font-semibold hover:bg-pink-700 rounded">
+                          XEM GIỎ HÀNG
+                        </button>
+                      </Link>
+                      <Link to="checkOut">
+                        <button className="w-full bg-pink-600 text-white py-2 font-semibold hover:bg-pink-700 rounded">
+                          THANH TOÁN
+                        </button>
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-center text-gray-500">
+                    Giỏ hàng đang trống
+                  </p>
+                )}
+              </Popover.Content>
+            </Popover.Root>
+            <button className="relative hover:text-gray-800 cursor-pointer">
+              <FontAwesomeIcon icon={faHeart} size="xl" />
+              <span className="absolute -top-2 right-[-8px] bg-pink-700 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
+                5
+              </span>
+            </button>
+          </div>
 
           {/* User */}
-          <div>
+          <div className="hidden lg:flex">
             {currentUser ? (
               <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
                 <Popover.Trigger asChild>
@@ -165,6 +273,40 @@ export default function Header() {
           <div>
             <Search />
           </div>
+          {currentUser ? (
+            <div className="flex flex-col w-full gap-2 mt-4 ml-4 ">
+              <Link
+                to="/account"
+                onClick={() => setIsNavbarOpen(false)}
+                className="block w-full text-left text-gray-700 rounded transition"
+              >
+                Quản lý hồ sơ
+              </Link>
+              <Link
+                to="/products"
+                onClick={() => setIsNavbarOpen(false)}
+                className="block w-full text-left text-gray-700 rounded transition border-t pt-4"
+              >
+                Sản phẩm
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="block w-full text-left text-red-600 rounded transition border-t pt-4"
+              >
+                Đăng xuất
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setIsNavbarOpen(false)}
+              className="bg-gray-800 px-3 py-2 lg:px-5 lg:py-3  rounded-lg hover:bg-gray-700 cursor-pointer"
+            >
+              <span className="text-white text-base lg:text-lg font-semibold">
+                Login
+              </span>
+            </Link>
+          )}
         </nav>
       </aside>
     </>
