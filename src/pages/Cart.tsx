@@ -1,34 +1,19 @@
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { useCart } from "../../context/ProductContext";
+import { useCart } from "../context/ProductContext";
 
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
 
   if (cart.length === 0) {
     return (
-      <div className="text-center py-10 bg-[#fdfbf5] px-4 sm:px-6 lg:px-8 text-[#4a4a4a] max-w-screen-xl mx-auto">
-        <p className="text-base leading-relaxed mb-6 sm:mb-8">
-          Cám ơn Quý Khách đã tin dùng & ủng hộ các sản phẩm do anh chị em chúng
-          tôi khai thác & chế biến. Xin vui lòng điền các thông tin cần thiết ở
-          bước kế tiếp để đặt hàng. Cần tư vấn thêm, xin vui lòng gọi hotline:
-          <span className="text-[#c30069] font-semibold">
-            {" "}
-            0914.268.535{" "}
-          </span>{" "}
-          (Thứ 2 - thứ 7 từ 8:00 đến 21:30 |{" "}
-          <span className="text-blue-600 italic">
-            Chủ Nhật từ 8:30 đến 17:30
-          </span>
-          )
-        </p>
-
-        <h2 className="text-2xl font-semibold mb-4">
+      <div className="text-center  py-10 px-4 sm:px-6 lg:px-8 text-[#4a4a4a] max-w-screen-xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-8">
           Chưa có sản phẩm nào trong giỏ hàng.
         </h2>
         <Link
-          to="/"
+          to="/products"
           className="bg-[#4a4a4a] text-white px-6 py-2 rounded hover:bg-[#434343]"
         >
           QUAY TRỞ LẠI CỬA HÀNG
@@ -43,17 +28,7 @@ const Cart = () => {
   );
 
   return (
-    <div className="bg-[#fdfbf5] px-4 sm:px-6 lg:px-8 py-10 text-[#4a4a4a] max-w-screen-xl mx-auto">
-      <p className="text-base text-center leading-relaxed mb-6 sm:mb-8 ">
-        Cám ơn Quý Khách đã tin dùng & ủng hộ các sản phẩm do anh chị em chúng
-        tôi khai thác & chế biến. Xin vui lòng điền các thông tin cần thiết ở
-        bước kế tiếp để đặt hàng. Cần tư vấn thêm, xin vui lòng gọi hotline:
-        <span className="text-[#c30069] font-semibold"> 0914.268.535 </span>
-        (Thứ 2 - thứ 7 từ 8:00 đến 21:30 |{" "}
-        <span className="text-blue-600 italic">Chủ Nhật từ 8:30 đến 17:30</span>
-        )
-      </p>
-
+    <div className="bg-white shadow-md rounded-md mt-10 px-4 sm:px-6 lg:px-8 py-10 text-[#4a4a4a] max-w-screen-xl mx-auto">
       <div className="grid md:grid-cols-3 gap-10">
         {/* Sản phẩm */}
         <div className="md:col-span-2 bg-white border border-gray-500 p-6 rounded">
@@ -127,10 +102,10 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className="mt-6">
+          <div className="mt-10">
             <Link
-              to="/"
-              className="inline-block border-2 border-[#c30069] text-[#c30069] font-semibold px-4 py-2 rounded hover:bg-[#c30069] hover:text-white transition"
+              to="/products"
+              className="inline-block bg-pink-100 border-pink-600 border text-pink-600 font-semibold px-4 py-2 rounded hover:bg-pink-50 transition"
             >
               ← TIẾP TỤC XEM SẢN PHẨM
             </Link>
@@ -143,11 +118,11 @@ const Cart = () => {
           <div className="space-y-2">
             <div className="flex justify-between font-semibold border-b pb-2">
               <span>Tạm tính</span>
-              <span>{total.toLocaleString()}đ</span>
+              <span>{total.toLocaleString()}₫</span>
             </div>
             <div className="flex justify-between font-semibold">
               <span>Tổng</span>
-              <span>{total.toLocaleString()}đ</span>
+              <span>{total.toLocaleString()}₫</span>
             </div>
           </div>
 
@@ -167,7 +142,7 @@ const Cart = () => {
               placeholder="Mã ưu đãi"
               className="w-full border border-gray-300 px-3 py-2 rounded mb-2"
             />
-            <button className="w-full bg-[#c30069] border border-[#4a4a4a] text-white py-2 rounded hover:bg-[#a10056] transition">
+            <button className="w-full bg-[#c30069] text-white py-2 rounded hover:bg-[#a10056] transition">
               Áp dụng
             </button>
           </div>

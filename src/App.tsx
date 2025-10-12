@@ -14,15 +14,17 @@ import Address from "./pages/Address";
 import Profile from "./pages/Profile";
 import TransactionHistory from "./pages/TransactionHistory";
 import ProductDetail from "./components/ProductDetail";
-import Cart from "./pages/CartPage/Cart";
-import Checkout from "./pages/CartPage/CheckOut";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/CheckOut";
 import ProductPage from "./pages/ProductPage";
+import BlogsPage from "./pages/BlogsPage";
+import SellVehiclePage from "./pages/SellVehiclePage";
+import BlogDetailPage from "./pages/BlogDetailPage";
 
 function AppContent() {
   const location = useLocation();
-  const hideFooterPaths = ["/"];
-
-  const shouldShowFooter = !hideFooterPaths.includes(location.pathname);
+  const hideFooterRegex = /^\/($|products\/\d+|cart|checkout|blogs)$/; // match /products/123, / (home)
+  const shouldShowFooter = !hideFooterRegex.test(location.pathname);
 
   return (
     <>
@@ -30,11 +32,14 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductPage />} />
+        <Route path="/blogs" element={<BlogsPage />} />
+        <Route path="/blogs/:id" element={<BlogDetailPage />} />
+        <Route path="/sellVehicle" element={<SellVehiclePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/cart/:id" element={<ProductDetail />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkOut" element={<Checkout />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/account" element={<Account />}>
           <Route index element={<Profile />} />
           <Route path="address" element={<Address />} />

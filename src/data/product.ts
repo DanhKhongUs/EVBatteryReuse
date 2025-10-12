@@ -6,14 +6,15 @@ export const Products: Product[] = [
     name: "Tai nghe Bluetooth Pro 3000mmh - chống ồn chủ động",
     img: "https://cdn.dribbble.com/userupload/43024992/file/original-66f7171d3182186eb50fdff3ad09f2a9.jpg?resize=752x&vertical=center",
     price: 690000,
-    rating: 4,
-    soldOut: false,
+    rating: 4.5,
+    description:
+      "Tai nghe Bluetooth Pro 3000mmh - chống ồn chủ động với chất lượng âm thanh tuyệt vời và thiết kế hiện đại.",
     discount: 30,
   },
   {
     id: 1,
     name: "Tai nghe Bluetooth Pro 3000mmh - chống ồn chủ động",
-    img: "/images/airpods.png",
+    img: "https://down-vn.img.susercontent.com/file/vn-11134201-7ra0g-m7qpnjs9ydkjcf.webp",
     price: 690000,
     rating: 5,
     discount: 30,

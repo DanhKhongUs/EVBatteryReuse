@@ -1,30 +1,17 @@
-import { useCart } from "../../context/ProductContext";
-import { Link } from "react-router-dom";
+import { useCart } from "../context/ProductContext";
+import { Link, useNavigate } from "react-router-dom";
 
 const Checkout = () => {
   const { cart, clearCart } = useCart();
+  const navigate = useNavigate();
 
   const total = cart.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
     0
   );
 
-  if (cart.length === 0) {
-    return (
-      <div className="text-center py-10">
-        <h2 className="text-2xl font-semibold mb-4">Giỏ hàng trống.</h2>
-        <Link
-          to="/"
-          className="bg-pink-600 text-white px-6 py-2 rounded hover:bg-pink-700"
-        >
-          Quay lại cửa hàng
-        </Link>
-      </div>
-    );
-  }
-
   return (
-    <div className="bg-[#fdfbf5] max-w-screen-xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="shadow-md rounded-md mt-10 max-w-screen-xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Thông tin thanh toán */}
       <div className="border border-gray-500 p-6 rounded-lg bg-white shadow-sm">
         <h2 className="text-xl font-bold text-pink-700 mb-4">
@@ -86,9 +73,7 @@ const Checkout = () => {
 
           <div className="col-span-2">
             <h3 className="font-bold text-pink-700 mb-2">THÔNG TIN BỔ SUNG</h3>
-            <label className="block mb-1 text-sm">
-              Ghi chú đơn hàng (tùy chọn)
-            </label>
+            <label className="block mb-1 ">Ghi chú đơn hàng (tùy chọn)</label>
             <textarea
               className="w-full border p-2 rounded"
               placeholder="Ghi chú về đơn hàng..."
@@ -117,7 +102,7 @@ const Checkout = () => {
               {item.product.name} × {item.quantity}
             </span>
             <span className="text-gray-800">
-              {(item.product.price * item.quantity).toLocaleString()}đ
+              {(item.product.price * item.quantity).toLocaleString()}₫
             </span>
           </div>
         ))}
@@ -126,11 +111,11 @@ const Checkout = () => {
         <div className="mt-6 space-y-2 ">
           <div className="flex justify-between font-semibold">
             <span>Tạm tính</span>
-            <span>{total.toLocaleString()}đ</span>
+            <span>{total.toLocaleString()}₫</span>
           </div>
           <div className="flex justify-between font-bold text-base text-gray-900">
             <span>Tổng</span>
-            <span>{total.toLocaleString()}đ</span>
+            <span>{total.toLocaleString()}₫</span>
           </div>
         </div>
 
@@ -167,6 +152,7 @@ const Checkout = () => {
           onClick={() => {
             alert("Đặt hàng thành công!");
             clearCart();
+            navigate("/");
           }}
           className="mt-12 w-full bg-pink-600 hover:bg-pink-700 text-white py-3 rounded-lg font-semibold transition duration-200"
         >

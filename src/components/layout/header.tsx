@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import Search from "../Search";
 import * as Popover from "@radix-ui/react-popover";
 import { useUserProfile } from "../../hooks/useUserProfile";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { useCart } from "../../context/ProductContext";
 
 export default function Header() {
@@ -43,7 +42,7 @@ export default function Header() {
 
   return (
     <>
-      <div className="sticky top-0 z-50 w-full mx-auto h-24 px-4 lg:px-16 flex items-center justify-between md:justify-between shadow-md bg-white rounded-b-xl mt-2 mb-4">
+      <div className="sticky top-0 z-50 w-full mx-auto h-24 px-4 lg:px-16 flex items-center justify-between md:justify-between shadow-md bg-white rounded-b-xl mt-2">
         <button
           className="md:hidden text-2xl"
           onClick={() => setIsNavbarOpen(true)}
@@ -52,17 +51,22 @@ export default function Header() {
         </button>
 
         <div className="flex items-center gap-8">
-          <Link to="/" className="md:px-10 ml-12 flex-shrink-0 cursor-pointer">
+          <Link to="/" className="md:px-10 flex-shrink-0 cursor-pointer">
             <img
-              src="/logo.svg"
+              src="logo.png"
               alt="Logo"
-              className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover shadow-md bg-gradient-to-tr from-blue-500 to-purple-600 p-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg"
+              className="w-20 h-24 md:w-26 md:h-28 rounded-full object-cover "
             />
           </Link>
 
           <Link to="/products" className="hidden lg:flex">
             <span className="text-lg font-semibold hover:underline">
               Sản phẩm
+            </span>
+          </Link>
+          <Link to="/blogs" className="hidden lg:flex">
+            <span className="text-lg font-semibold hover:underline">
+              Bài viết
             </span>
           </Link>
         </div>
@@ -88,7 +92,7 @@ export default function Header() {
               <Popover.Content
                 align="end"
                 sideOffset={8}
-                className="bg-white rounded-lg shadow-xl border w-80 p-5 z-50"
+                className="bg-white rounded-lg shadow-xl border w-80 lg:w-[400px] p-5 z-50"
               >
                 {cart.length > 0 ? (
                   <>
@@ -134,12 +138,12 @@ export default function Header() {
 
                     <div className="mt-4 flex flex-col gap-2">
                       <Link to="cart">
-                        <button className="w-full bg-pink-600 text-white py-2 font-semibold hover:bg-pink-700 rounded">
+                        <button className="w-full bg-[#ff57221a] border-[#ee4d2d] border text-[#ee4d2d] py-2 font-semibold hover:bg-[#ffad941a] rounded">
                           XEM GIỎ HÀNG
                         </button>
                       </Link>
                       <Link to="checkOut">
-                        <button className="w-full bg-pink-600 text-white py-2 font-semibold hover:bg-pink-700 rounded">
+                        <button className="w-full text-white py-2 font-semibold bg-[#ee4d2d] hover:opacity-90 rounded">
                           THANH TOÁN
                         </button>
                       </Link>
@@ -152,12 +156,6 @@ export default function Header() {
                 )}
               </Popover.Content>
             </Popover.Root>
-            <button className="relative hover:text-gray-800 cursor-pointer">
-              <FontAwesomeIcon icon={faHeart} size="xl" />
-              <span className="absolute -top-2 right-[-8px] bg-pink-700 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
-                5
-              </span>
-            </button>
           </div>
 
           {/* User */}
@@ -204,6 +202,12 @@ export default function Header() {
                       className="block w-full text-left text-gray-700 hover:bg-sky-100 hover:text-sky-800 rounded px-3 py-2 transition"
                     >
                       Quản lý hồ sơ
+                    </Link>
+                    <Link
+                      to="/sellVehicle"
+                      className="block w-full text-left text-gray-700 hover:bg-sky-100 hover:text-sky-800 rounded px-3 py-2 transition"
+                    >
+                      Đăng tin
                     </Link>
 
                     <button
