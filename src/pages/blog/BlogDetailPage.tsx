@@ -1,26 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-
-interface Props {
-  id: string;
-  productType: string;
-  name: string;
-  brand: string;
-  year: string;
-  condition: string;
-  description: string;
-  images: string[];
-  price?: number;
-}
+import { Listing } from "../../types";
 
 export default function BlogDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const [listing, setListing] = useState<Props | null>(null);
+  const [listing, setListing] = useState<Listing | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("blogs");
     if (saved) {
-      const data = JSON.parse(saved) as Props[];
+      const data = JSON.parse(saved) as Listing[];
       const found = data.find((item) => item.id === id);
       if (found) setListing(found);
     }

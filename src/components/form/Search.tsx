@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import type { Product } from "../types";
-import { Products } from "../data/product";
+import { Product } from "../../types";
+import { Products } from "../../data/product";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleXmark,

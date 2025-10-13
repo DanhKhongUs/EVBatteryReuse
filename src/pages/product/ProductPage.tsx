@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import ProductCard from "../components/ProductCard";
-import { Products } from "../data/product";
-import Pagination from "../components/Pagination";
-import FilterSidebar from "../components/FilterSidebar";
+import ProductCard from "../../components/product/ProductCard";
+import { Products } from "../../data/product";
+import Pagination from "../../components/product/Pagination";
+import FilterSidebar from "../../components/layout/SideBar/FilterSidebar";
 
 export default function ProductPage() {
-  const [products, setProducts] = useState(Products);
   const [currentPage, setCurrentPage] = useState(1);
 
   const ITEMS_PER_PAGE = 12;
-  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(Products.length / ITEMS_PER_PAGE);
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const allProducts = products.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const allProducts = Products.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -28,7 +27,7 @@ export default function ProductPage() {
           <div className="flex justify-between mb-2 border-b pb-4">
             <div className="flex gap-4 items-center">
               <h2 className="text-base lg:text-2xl text-gray-700 font-bold">
-                Có hơn {products.length} sản phẩm
+                Có hơn {Products.length} sản phẩm
               </h2>
 
               <div className="lg:hidden flex border text-sm border-gray-700">

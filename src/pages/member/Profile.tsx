@@ -1,5 +1,4 @@
-import React from "react";
-import { useUserProfile } from "../hooks/useUserProfile";
+import { useUserProfile } from "../../hooks/useUserProfile";
 
 export default function Profile() {
   const { formData, setFormData, saveProfile } = useUserProfile();

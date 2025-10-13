@@ -1,7 +1,7 @@
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { useCart } from "../context/ProductContext";
+import { useCart } from "../../context/ProductContext";
 
 const Cart = () => {
   const { cart, removeFromCart } = useCart();

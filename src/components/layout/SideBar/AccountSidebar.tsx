@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
-import { useUserProfile } from "../hooks/useUserProfile";
+import { useUserProfile } from "../../../hooks/useUserProfile";
 
 const menuItems = [
   { id: 0, label: "THÔNG TIN CÁ NHÂN", to: "." },

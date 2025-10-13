@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-interface Props {
-  id: string;
-  name: string;
-  brand: string;
-  year: string;
-  condition: string;
-  description: string;
-  images: string[];
-  price?: number;
-}
+import { Listing } from "../../types";
 
 export default function BlogsPage() {
-  const [listings, setListings] = useState<Props[]>([]);
+  const [listings, setListings] = useState<Listing[]>([]);
 
   useEffect(() => {
     const saved = localStorage.getItem("blogs");

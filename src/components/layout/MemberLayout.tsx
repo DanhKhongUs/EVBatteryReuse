@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
-import AccountSidebar from "../components/AccountSidebar";
+import AccountSidebar from "../../components/layout/SideBar/AccountSidebar";
 
-export default function Account() {
+export default function MemberLayout() {
   const location = useLocation();
 
   const getCurrentLabel = (pathname: string) => {

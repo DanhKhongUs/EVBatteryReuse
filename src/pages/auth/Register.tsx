@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { User } from "../types";
+import { User } from "../../types";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
@@ -21,10 +21,12 @@ export default function RegisterPage() {
     }
 
     const newUser: User = {
+      id: crypto.randomUUID(),
       name,
       email,
       password,
       avatar: "/default-avatar.png",
+      role: "member",
     };
 
     users.push(newUser);

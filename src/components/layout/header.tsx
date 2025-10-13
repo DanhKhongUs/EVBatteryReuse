@@ -7,7 +7,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import Search from "../Search";
+import Search from "../form/Search";
 import * as Popover from "@radix-ui/react-popover";
 import { useUserProfile } from "../../hooks/useUserProfile";
 import { useCart } from "../../context/ProductContext";

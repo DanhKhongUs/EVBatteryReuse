@@ -1,4 +1,4 @@
-import SellVehicleForm from "../components/SellVehicleForm";
+import SellVehicleForm from "../../components/form/SellVehicleForm";
 
 export default function SellVehiclePage() {
   return (

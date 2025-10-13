@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { User } from "../types";
+import { User } from "../../types";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
