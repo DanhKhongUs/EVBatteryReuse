@@ -1,3 +1,9 @@
+import PostsTable from "../../components/admin/PostsTable";
+
 export default function Posts() {
-  return <div>Posts page</div>;
+  return (
+    <div>
+      <PostsTable />
+    </div>
+  );
 }
