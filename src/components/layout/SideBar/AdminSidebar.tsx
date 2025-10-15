@@ -7,7 +7,7 @@ import {
   faUser,
 } from "@fortawesome/free-regular-svg-icons";
 import {
-  faMoneyBillTransfer,
+  faExchangeAlt,
   faMoneyBillTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -34,7 +34,7 @@ const menuItems = [
     id: 3,
     label: "QUẢN LÝ GIAO DỊCH",
     to: "transactions",
-    icon: <FontAwesomeIcon icon={faMoneyBillTransfer} />,
+    icon: <FontAwesomeIcon icon={faExchangeAlt} />,
   },
   {
     id: 4,
@@ -57,9 +57,9 @@ export default function AdminSidebar() {
     <aside className="w-72 bg-white rounded-xl border shadow p-3 space-y-6">
       <div className="flex items-center cursor-pointer">
         <img
-          src="logo.png"
+          src="/logo.png"
           alt="Logo"
-          className="w-20 h-24 md:w-26 md:h-28 rounded-full object-cover "
+          className="w-26 h-28 rounded-full object-cover "
         />
         <span className="text-lg font-black">EV & Battery</span>
       </div>
@@ -86,7 +86,7 @@ export default function AdminSidebar() {
 
         <button
           onClick={handleLogout}
-          className="text-red-600 hover:bg-red-50 flex rounded-md p-4  font-semibold"
+          className="text-red-600 border-t hover:bg-red-50 flex rounded-md p-4  font-semibold"
         >
           ĐĂNG XUẤT
         </button>

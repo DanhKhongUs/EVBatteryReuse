@@ -1,3 +1,9 @@
+import DashboardTable from "../../components/admin/DashboardTable";
+
 export default function DashBoard() {
-  return <div>Admin Dashboard</div>;
+  return (
+    <div>
+      <DashboardTable />
+    </div>
+  );
 }

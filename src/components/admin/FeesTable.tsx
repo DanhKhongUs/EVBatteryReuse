@@ -157,7 +157,7 @@ export default function FeesTable() {
         </table>
       </div>
 
-      <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
+      <div className="flex justify-between items-center mt-4 text-gray-600">
         <div>Tổng cộng: {filteredFees.length} loại phí</div>
       </div>
     </div>

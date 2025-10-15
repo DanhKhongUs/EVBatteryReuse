@@ -5,10 +5,10 @@ export default function MemberLayout() {
   const location = useLocation();
 
   const getCurrentLabel = (pathname: string) => {
-    if (pathname.endsWith("/account")) return "THÔNG TIN CÁ NHÂN";
-    if (pathname.endsWith("/address")) return "ĐỊA CHỈ";
-    if (pathname.endsWith("/transactionHistory")) return "LỊCH SỬ GIAO DỊCH";
-    return "";
+    if (pathname.endsWith("/account/address")) return "ĐỊA CHỈ";
+    if (pathname.endsWith("/account/transactionHistory"))
+      return "LỊCH SỬ GIAO DỊCH";
+    return "THÔNG TIN CÁ NHÂN";
   };
 
   const currentLabel = getCurrentLabel(location.pathname);

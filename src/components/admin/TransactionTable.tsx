@@ -110,23 +110,23 @@ export default function TransactionTable() {
                 ID
               </th>
               <th className="px-6 py-3 text-base font-semibold text-gray-600">
-                CUSTOMER
+                NGƯỜI DÙNG
               </th>
 
               <th className="px-6 py-3 text-base font-semibold text-gray-600">
-                DATE
+                NGÀY
               </th>
               <th className="px-6 py-3 text-base font-semibold text-gray-600">
-                TOTAL
+                TỔNG
               </th>
               <th className="px-6 py-3 text-base font-semibold text-gray-600">
-                METHOD
+                PHƯƠNG THỨC
               </th>
               <th className="px-6 py-3 text-base font-semibold text-gray-600">
-                STATUS
+                TRẠNG THÁI
               </th>
               <th className="px-6 py-3 text-base font-semibold text-gray-600">
-                ACTION
+                HÀNH ĐỘNG{" "}
               </th>
             </tr>
           </thead>
@@ -164,17 +164,9 @@ export default function TransactionTable() {
         </table>
       </div>
 
-      <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
+      <div className="flex justify-between items-center mt-4 text-gray-600">
         <div>
-          Showing{" "}
-          <select
-            className="border rounded px-1 py-0.5"
-            value={ITEMS_PER_PAGE}
-            onChange={() => {}}
-          >
-            <option>10</option>
-          </select>{" "}
-          of {filtered.length}
+          Hiển thị {paginated.length} / {filtered.length} giao dịch
         </div>
         <Pagination
           currentPage={currentPage}

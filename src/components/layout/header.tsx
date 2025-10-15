@@ -51,27 +51,26 @@ export default function Header() {
         </button>
 
         <div className="flex items-center gap-8">
-          <Link to="/" className="md:px-10 flex-shrink-0 cursor-pointer">
+          <Link to="/" className="md:pl-10 flex-shrink-0 cursor-pointer">
             <img
-              src="logo.png"
+              src="/logo.png"
               alt="Logo"
               className="w-20 h-24 md:w-26 md:h-28 rounded-full object-cover "
             />
           </Link>
 
-          <Link to="/products" className="hidden lg:flex">
+          <Link to="/products" className="hidden md:flex">
             <span className="text-lg font-semibold hover:underline">
               Sản phẩm
             </span>
           </Link>
-          <Link to="/blogs" className="hidden lg:flex">
+          <Link to="/blogs" className="hidden md:flex">
             <span className="text-lg font-semibold hover:underline">
               Bài viết
             </span>
           </Link>
         </div>
 
-        {/* Actions */}
         <div className="flex items-center gap-5">
           {/* Search */}
           <div className="hidden md:block mr-8">

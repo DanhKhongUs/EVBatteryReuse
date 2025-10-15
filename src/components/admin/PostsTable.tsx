@@ -161,11 +161,11 @@ export default function PostsTable() {
                     {post.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 flex gap-3 text-gray-500">
+                <td className="px-6 py-4 text-gray-500">
                   <button
                     onClick={() => updateStatus(post.id, "Approved")}
                     title="Phê duyệt bài viết"
-                    className="hover:text-green-600 transition"
+                    className="hover:text-green-600 transition mr-3"
                   >
                     <FontAwesomeIcon icon={faCheckCircle} size="lg" />
                   </button>
@@ -173,7 +173,7 @@ export default function PostsTable() {
                   <button
                     onClick={() => updateStatus(post.id, "Spam")}
                     title="Đánh dấu là spam"
-                    className="hover:text-red-600 transition"
+                    className="hover:text-red-600 transition mr-3"
                   >
                     <FontAwesomeIcon icon={faExclamationTriangle} size="lg" />
                   </button>
@@ -199,7 +199,7 @@ export default function PostsTable() {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
+      <div className="flex justify-between items-center mt-4 text-gray-600">
         <div>
           Hiển thị {paginated.length} / {filtered.length} bài viết
         </div>

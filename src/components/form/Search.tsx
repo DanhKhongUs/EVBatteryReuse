@@ -63,7 +63,7 @@ export default function Search() {
   };
 
   return (
-    <div ref={wrapperRef} className="relative w-full lg:w-[500px]">
+    <div ref={wrapperRef} className="relative w-full xl:w-[500px]">
       {/* Input */}
       <div className="relative flex w-full max-w-full rounded-full border bg-white shadow-md overflow-hidden">
         <input
