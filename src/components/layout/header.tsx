@@ -158,7 +158,7 @@ export default function Header() {
           </div>
 
           {/* User */}
-          <div className="hidden lg:flex">
+          <div className="hidden md:flex">
             {currentUser ? (
               <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
                 <Popover.Trigger asChild>
