@@ -14,7 +14,7 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error("Mật khẩu không khớp!");
@@ -28,6 +28,8 @@ export default function RegisterPage() {
       password,
       confirmPassword,
     });
+
+    console.log(result);
     setIsLoading(false);
 
     if (typeof result === "string") {
@@ -74,9 +76,18 @@ export default function RegisterPage() {
         className="w-full border p-2 rounded"
         required
       />
+      <input
+        type="password"
+        placeholder="Xác nhận mật khẩu"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        className="w-full border p-2 rounded"
+        required
+      />
 
       <button
         type="submit"
+        onClick={handleRegister}
         className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 cursor-pointer"
       >
         {isLoading ? "Đang xử lý..." : "Đăng ký"}
