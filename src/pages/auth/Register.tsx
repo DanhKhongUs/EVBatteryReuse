@@ -1,39 +1,46 @@
 import { useState } from "react";
-import { User } from "../../types";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function RegisterPage() {
-  const [name, setName] = useState("");
+  const { actions } = useAuth();
+
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const storedUsers = localStorage.getItem("users");
-    const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
-
-    const isEmailTaken = users.some((user) => user.email === email);
-    if (isEmailTaken) {
-      alert("Email đã được sử dụng.");
+    if (password !== confirmPassword) {
+      toast.error("Mật khẩu không khớp!");
       return;
     }
 
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      name,
+    setIsLoading(true);
+    const result = await actions.signup({
+      name: username,
       email,
       password,
-      avatar: "/default-avatar.png",
-      role: "member",
-    };
+      confirmPassword,
+    });
+    setIsLoading(false);
 
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
+    if (typeof result === "string") {
+      return;
+    }
 
-    alert("Đăng ký thành công!");
     navigate("/login");
+
+    // Reset form
+    setEmail("");
+    setUsername("");
+    setPassword("");
+    setConfirmPassword("");
   };
 
   return (
@@ -46,8 +53,8 @@ export default function RegisterPage() {
       <input
         type="text"
         placeholder="Họ và tên"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         className="w-full border p-2 rounded"
         required
       />
@@ -72,7 +79,7 @@ export default function RegisterPage() {
         type="submit"
         className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 cursor-pointer"
       >
-        Đăng ký
+        {isLoading ? "Đang xử lý..." : "Đăng ký"}
       </button>
 
       <p className="text-center text-gray-600">

@@ -6,15 +6,7 @@ interface Data {
   password?: string;
   confirmPassword?: string;
   newPassword?: string;
-  providedCode?: string;
 }
-
-export const validate = async () => {
-  const { data } = await httpRequest.get("/auth/validate", {
-    withCredentials: true,
-  });
-  return data;
-};
 
 export const signup = async (data: Data) => {
   return (

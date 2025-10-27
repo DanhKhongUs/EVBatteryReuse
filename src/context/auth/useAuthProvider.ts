@@ -43,10 +43,10 @@ export const useAuthProvider = () => {
     const fetchAuth = async () => {
       try {
         setIsLoading(true);
-        const data: APIResponse<User> = await authAPI.validate();
-        if (data.success && data.user) {
+
+        if (user) {
           setIsAuthenticated(true);
-          setUser(data.user);
+          setUser(user);
         } else {
           setIsAuthenticated(false);
           setUser(null);
@@ -60,33 +60,8 @@ export const useAuthProvider = () => {
         setIsLoading(false);
       }
     };
-
     fetchAuth();
-  }, []);
-
-  const validate = async (): Promise<User | null> => {
-    try {
-      setIsLoading(true);
-      const data: APIResponse<User> = await authAPI.validate();
-      if (data.success && data.user) {
-        setUser(data.user);
-        setIsAuthenticated(true);
-        return data.user;
-      } else {
-        setUser(null);
-        setIsAuthenticated(false);
-        return null;
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Validate failed");
-      setIsAuthenticated(false);
-      setUser(null);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [user]);
 
   const signup = async (credentials: Credentials) => {
     try {
@@ -109,21 +84,15 @@ export const useAuthProvider = () => {
     try {
       const data: APIResponse<User> = await authAPI.signin(credentials);
 
-      if (!data.success) {
+      if (!data.success || !data.user) {
         toast.error(data.message || "Signin failed.");
         return { success: false, message: data.message || "Signin failed." };
       }
 
-      // Gọi validate sau khi đăng nhập đẻ lấy user chuẩn nhất
-      const validated = await authAPI.validate();
-      if (validated.success && validated.user) {
-        setUser(validated.user);
-        setIsAuthenticated(true);
-        toast.success("SignIn successful");
-        return { success: true };
-      }
-
-      return { success: false, message: "Failed to validate user." };
+      setUser(data.user);
+      setIsAuthenticated(true);
+      toast.success("SignIn successful");
+      return { success: true };
     } catch (error) {
       console.error("SignIn error:", error);
       toast.error("Signin failed. Please try again.");
@@ -156,7 +125,6 @@ export const useAuthProvider = () => {
     isAuthenticated,
     isLoading,
     actions: {
-      validate,
       signup,
       signin,
       signout,

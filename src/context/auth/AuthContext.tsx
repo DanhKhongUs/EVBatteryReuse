@@ -13,7 +13,6 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   actions: {
-    validate: () => Promise<User | null>;
     signup: (credentials: {
       name: string;
       email: string;

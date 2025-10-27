@@ -1,27 +1,29 @@
 import { useState } from "react";
-import { User } from "../../types";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function LoginPage() {
+  const { actions } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    const result = await actions.signin({ email, password });
+    setIsLoading(false);
 
-    const storedUsers = localStorage.getItem("users");
-    const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
+    if (typeof result === "string") {
+      return;
+    }
 
-    const foundUser = users.find(
-      (user) => user.email === email && user.password === password
-    );
-
-    if (foundUser) {
-      localStorage.setItem("currentUser", JSON.stringify(foundUser));
+    if (result.success) {
       navigate("/");
-    } else {
-      alert("Email hoặc mật khẩu không chính xác.");
     }
   };
 
@@ -51,9 +53,9 @@ export default function LoginPage() {
 
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 cursor-pointer"
+        className="w-full py-2 bg-gray-800 text-white font-semibold rounded hover:bg-gray-700 transition duration-300 cursor-pointer"
       >
-        Đăng nhập
+        {isLoading ? "Đang xử lý..." : "Đăng nhập"}
       </button>
 
       <p className="text-center text-gray-600">
