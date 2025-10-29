@@ -1,4 +1,4 @@
-import httpRequest from "../utils/httpRequest";
+import httpRequest, { setAccessToken } from "../utils/httpRequest";
 
 interface Data {
   email: string;
@@ -9,22 +9,17 @@ interface Data {
 }
 
 export const signup = async (data: Data) => {
-  return (
-    await httpRequest.post("/auth/signup", data, { withCredentials: true })
-  ).data;
+  const res = await httpRequest.post("/auth/signin", data);
+  setAccessToken(res.data.accessToken);
+  return res.data;
 };
 
 export const signin = async (data: Data) => {
-  return (
-    await httpRequest.post("/auth/signin", data, { withCredentials: true })
-  ).data;
+  return (await httpRequest.post("/auth/signin", data)).data;
 };
 
 export const signout = async () => {
-  const { data } = await httpRequest.post(
-    "auth/signout",
-    {},
-    { withCredentials: true }
-  );
+  const { data } = await httpRequest.post("auth/signout", {});
+  setAccessToken(null);
   return data;
 };

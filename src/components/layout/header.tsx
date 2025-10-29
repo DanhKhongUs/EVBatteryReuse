@@ -11,8 +11,11 @@ import Search from "../form/Search";
 import * as Popover from "@radix-ui/react-popover";
 import { useUserProfile } from "../../hooks/useUserProfile";
 import { useCart } from "../../context/ProductContext";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function Header() {
+  const { actions } = useAuth();
+
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +38,8 @@ export default function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("currentUser");
+  const handleLogout = async () => {
+    await actions.signout();
     setCurrentUser(null);
   };
 
