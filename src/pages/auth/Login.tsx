@@ -16,11 +16,8 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     const result = await actions.signin({ email, password });
-    setIsLoading(false);
 
-    if (typeof result === "string") {
-      return;
-    }
+    setIsLoading(false);
 
     if (result.success) {
       navigate("/");

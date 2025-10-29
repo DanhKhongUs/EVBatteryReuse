@@ -9,13 +9,13 @@ interface Data {
 }
 
 export const signup = async (data: Data) => {
-  const res = await httpRequest.post("/auth/signin", data);
-  setAccessToken(res.data.accessToken);
-  return res.data;
+  return (await httpRequest.post("/auth/signup", data)).data;
 };
 
 export const signin = async (data: Data) => {
-  return (await httpRequest.post("/auth/signin", data)).data;
+  const res = await httpRequest.post("/auth/signin", data);
+  setAccessToken(res.data.data.accessToken);
+  return res.data;
 };
 
 export const signout = async () => {

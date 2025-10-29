@@ -84,12 +84,12 @@ export const useAuthProvider = () => {
     try {
       const data: APIResponse<User> = await authAPI.signin(credentials);
 
-      if (!data.success || !data.user) {
+      if (!data.success) {
         toast.error(data.message || "Signin failed.");
         return { success: false, message: data.message || "Signin failed." };
       }
 
-      setUser(data.user);
+      setUser(data.user || null);
       setIsAuthenticated(true);
       toast.success("SignIn successful");
       return { success: true };

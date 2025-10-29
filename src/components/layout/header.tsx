@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -9,12 +9,13 @@ import {
 import { useEffect, useState } from "react";
 import Search from "../form/Search";
 import * as Popover from "@radix-ui/react-popover";
-import { useUserProfile } from "../../hooks/useUserProfile";
 import { useCart } from "../../context/ProductContext";
 import { useAuth } from "../../context/auth/AuthContext";
 
 export default function Header() {
-  const { actions } = useAuth();
+  const { isAuthenticated, user, actions, isLoading } = useAuth();
+
+  const navigate = useNavigate();
 
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -27,8 +28,6 @@ export default function Header() {
     0
   );
 
-  const { avatar, currentUser, setCurrentUser } = useUserProfile();
-
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 856);
@@ -40,8 +39,10 @@ export default function Header() {
 
   const handleLogout = async () => {
     await actions.signout();
-    setCurrentUser(null);
+    navigate("/");
   };
+
+  if (isLoading) return null;
 
   return (
     <>
@@ -162,28 +163,28 @@ export default function Header() {
 
           {/* User */}
           <div className="hidden md:flex">
-            {currentUser ? (
+            {isAuthenticated ? (
               <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
                 <Popover.Trigger asChild>
                   <div
                     onClick={() => isDesktop && setIsOpen(true)}
                     className="w-12 h-12 rounded-full overflow-hidden border border-gray-300 shadow-sm hover:shadow-md transition cursor-pointer"
                   >
-                    {avatar ? (
+                    {/* {avatar ? (
                       <img
                         src={avatar}
                         alt="Avatar"
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <svg
-                        className="w-12 h-12 text-gray-400"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2c-3.2 0-9.5 1.6-9.5 4.9V22h19v-3.1c0-3.3-6.3-4.9-9.5-4.9z" />
-                      </svg>
-                    )}
+                    )} */}
+                    <svg
+                      className="w-12 h-12 text-gray-400"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2c-3.2 0-9.5 1.6-9.5 4.9V22h19v-3.1c0-3.3-6.3-4.9-9.5-4.9z" />
+                    </svg>
                   </div>
                 </Popover.Trigger>
 
@@ -196,7 +197,7 @@ export default function Header() {
                   >
                     <p className="font-semibold mb-2 text-gray-800">
                       Xin chào,{" "}
-                      <span className="text-sky-600">{currentUser.name}</span>
+                      <span className="text-sky-600">{user?.name}</span>
                     </p>
 
                     <Link
@@ -258,28 +259,28 @@ export default function Header() {
         <nav className="flex flex-col items-center p-6 gap-6">
           {/* Avatar */}
           <div className="w-14 h-14 relative rounded-full border-2 border-gray-500 shadow-lg overflow-hidden">
-            {avatar ? (
+            {/* {avatar ? (
               <img
                 src={avatar}
                 alt="Avatar"
                 className="w-full h-full object-cover"
               />
             ) : (
-              <svg
-                className="w-14 h-14 text-gray-400"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2c-3.2 0-9.5 1.6-9.5 4.9V22h19v-3.1c0-3.3-6.3-4.9-9.5-4.9z" />
-              </svg>
-            )}
+            )} */}
+            <svg
+              className="w-14 h-14 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2c-3.2 0-9.5 1.6-9.5 4.9V22h19v-3.1c0-3.3-6.3-4.9-9.5-4.9z" />
+            </svg>
           </div>
 
           {/* Search */}
           <div>
             <Search />
           </div>
-          {currentUser ? (
+          {isAuthenticated ? (
             <div className="flex flex-col w-full gap-2 mt-4 ml-4 ">
               <Link
                 to="/account"
