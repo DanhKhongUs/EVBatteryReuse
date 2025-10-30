@@ -35,7 +35,7 @@ httpRequest.interceptors.response.use(
           { withCredentials: true }
         );
 
-        const newAccessToken = res.data.accessToken;
+        const newAccessToken = res.data.data.accessToken;
         setAccessToken(newAccessToken);
 
         error.config.headers.Authorization = `Bearer ${newAccessToken}`;

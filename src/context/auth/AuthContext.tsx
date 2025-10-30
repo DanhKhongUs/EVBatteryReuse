@@ -2,10 +2,10 @@ import { createContext, useContext, ReactNode } from "react";
 import { useAuthProvider } from "./useAuthProvider";
 
 interface User {
-  _id: string;
+  id: string;
   name: string;
   email: string;
-  role?: "admin" | "member";
+  roles: string[];
 }
 
 interface AuthContextType {

@@ -6,14 +6,14 @@ import { toast } from "react-toastify";
 interface APIResponse<T> {
   success: boolean;
   message?: string;
-  user?: T;
-  token?: string;
+  data: T;
 }
 
 interface User {
-  _id: string;
+  id: string;
   name: string;
   email: string;
+  roles: string[];
 }
 
 interface Credentials {
@@ -44,7 +44,6 @@ export const useAuthProvider = () => {
       try {
         setIsLoading(true);
         const res = await authAPI.checkAuth();
-
         if (res.success && res.data) {
           setUser(res.data);
           setIsAuthenticated(true);
@@ -89,7 +88,7 @@ export const useAuthProvider = () => {
         return { success: false, message: data.message || "Signin failed." };
       }
 
-      setUser(data.user || null);
+      setUser(data.data || null);
       setIsAuthenticated(true);
       toast.success("SignIn successful");
       return { success: true };
