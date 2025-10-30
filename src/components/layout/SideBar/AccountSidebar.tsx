@@ -73,7 +73,7 @@ export default function AccountSidebar() {
         />
 
         <h3 className="text-lg font-semibold text-gray-800">
-          {formData.name || "User Name"}
+          {user?.name || "User Name"}
         </h3>
         <span className="text-sm text-gray-600 mt-1">
           {user?.email || "example@student.ut.edu.vn"}
