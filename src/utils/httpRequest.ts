@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 let accessToken: string | null = null;
 
@@ -40,8 +40,12 @@ httpRequest.interceptors.response.use(
 
         error.config.headers.Authorization = `Bearer ${newAccessToken}`;
         return httpRequest(error.config);
-      } catch (err) {
-        console.error(err);
+      } catch (err: unknown) {
+        if (err instanceof AxiosError) {
+          if (err.response?.status === 401) {
+            setAccessToken(null);
+          }
+        }
       }
     }
 

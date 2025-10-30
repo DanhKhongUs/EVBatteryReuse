@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { useUserProfile } from "../../../hooks/useUserProfile";
+import { useAuth } from "../../../context/auth/AuthContext";
 
 const menuItems = [
   { id: 0, label: "THÔNG TIN CÁ NHÂN", to: "." },
@@ -11,7 +12,9 @@ const menuItems = [
 ];
 
 export default function AccountSidebar() {
-  const { formData, currentUser, avatar, setAvatar } = useUserProfile();
+  const { formData, avatar, setAvatar } = useUserProfile();
+
+  const { user } = useAuth();
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -73,7 +76,7 @@ export default function AccountSidebar() {
           {formData.name || "User Name"}
         </h3>
         <span className="text-sm text-gray-600 mt-1">
-          {currentUser?.email || "example@student.ut.edu.vn"}
+          {user?.email || "example@student.ut.edu.vn"}
         </span>
       </div>
 
