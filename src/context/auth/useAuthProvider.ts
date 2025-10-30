@@ -43,25 +43,25 @@ export const useAuthProvider = () => {
     const fetchAuth = async () => {
       try {
         setIsLoading(true);
+        const res = await authAPI.checkAuth();
 
-        if (user) {
+        if (res.success && res.data) {
+          setUser(res.data);
           setIsAuthenticated(true);
-          setUser(user);
         } else {
-          setIsAuthenticated(false);
           setUser(null);
+          setIsAuthenticated(false);
         }
       } catch (error) {
-        console.error(error);
-        toast.error("User not authenticated");
-        setIsAuthenticated(false);
+        console.error("Auth check failed:", error);
         setUser(null);
+        setIsAuthenticated(false);
       } finally {
         setIsLoading(false);
       }
     };
     fetchAuth();
-  }, [user]);
+  }, []);
 
   const signup = async (credentials: Credentials) => {
     try {

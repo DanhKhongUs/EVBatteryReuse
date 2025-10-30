@@ -19,7 +19,11 @@ export const signin = async (data: Data) => {
 };
 
 export const signout = async () => {
-  const { data } = await httpRequest.post("auth/signout", {});
+  const { data } = await httpRequest.post("/auth/signout", {});
   setAccessToken(null);
   return data;
+};
+
+export const checkAuth = async () => {
+  return (await httpRequest.get("/auth/profile")).data;
 };
