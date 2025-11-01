@@ -71,6 +71,7 @@ export const useAuthProvider = () => {
       }
 
       toast.success("SignUp successful. Please signin");
+      window.location.href = "/";
       return { success: true };
     } catch (error) {
       console.error("SignUp error:", error);
@@ -112,6 +113,7 @@ export const useAuthProvider = () => {
       setIsAuthenticated(false);
       setUser(null);
       toast.success("SignOut successful");
+      window.location.href = "/";
     } catch (error) {
       console.error("SignOut error:", error);
       toast.error("Signout failed. Please try again.");

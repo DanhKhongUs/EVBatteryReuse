@@ -12,7 +12,7 @@ const menuItems = [
 ];
 
 export default function AccountSidebar() {
-  const { formData, avatar, setAvatar } = useUserProfile();
+  const { avatar, setAvatar } = useUserProfile();
 
   const { user } = useAuth();
 
@@ -72,12 +72,8 @@ export default function AccountSidebar() {
           onChange={handleAvatarChange}
         />
 
-        <h3 className="text-lg font-semibold text-gray-800">
-          {user?.name || "User Name"}
-        </h3>
-        <span className="text-sm text-gray-600 mt-1">
-          {user?.email || "example@student.ut.edu.vn"}
-        </span>
+        <h3 className="text-lg font-semibold text-gray-800">{user?.name}</h3>
+        <span className="text-sm text-gray-600 mt-1">{user?.email}</span>
       </div>
 
       <nav className="mt-6 space-y-3 font-medium text-gray-700">
