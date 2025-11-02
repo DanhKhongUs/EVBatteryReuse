@@ -16,7 +16,7 @@ export default function SellVehicleForm() {
     date: "",
     status: "Mới",
     description: "",
-    images: [] as File[],
+    images: [] as string[],
   });
 
   const [specs, setSpecs] = useState<Spec[]>([
@@ -27,42 +27,15 @@ export default function SellVehicleForm() {
     { name: "Trọng lượng xe", value: "" },
   ]);
 
-  // const [suggestedPrice, setSuggestedPrice] = useState<number | null>(null);
-  // const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
-  // const [loadingAI, setLoadingAI] = useState(false);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
-  // const getSuggestedPrice = async () => {
-  //   setLoadingAI(true);
-
-  //   const payload: SellVehicle = {
-  //     category: formData.category as "Xe" | "Pin",
-  //     name: formData.name,
-  //     brand: formData.brand,
-  //     price: Number(formData.price),
-  //     date: new Date(Number(formData.date), 0, 1),
-  //     condition: formData.condition as "Mới" | "Cũ",
-  //     description: formData.description,
-  //     images: formData.images,
-  //     details: {
-  //       batteryPercentage: specs[0].value,
-  //       motorCapacity: specs[1].value,
-  //       maximumDistance: specs[2].value,
-  //       chargingTime: specs[3].value,
-  //       weight: specs[4].value,
-  //     },
-  //   };
-
-  //   try {
-  //     const res = await createProduct(payload);
-  //     if (res?.suggestedPrice) setSuggestedPrice(res.suggestedPrice);
-  //     if (res?.priceRange) setPriceRange(res.priceRange);
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setLoadingAI(false);
-  //   }
-  // };
+  const toBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+    });
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -78,18 +51,19 @@ export default function SellVehicleForm() {
     updated[index].value = value;
     setSpecs(updated);
   };
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files).slice(0, 5);
+
+    const base64Images = await Promise.all(files.map((file) => toBase64(file)));
 
     setFormData((prev) => ({
       ...prev,
-      images: [...prev.images, ...files].slice(0, 5),
+      images: [...prev.images, ...base64Images].slice(0, 5),
     }));
 
-    setPreviewUrls((prev) =>
-      [...prev, ...files.map((f) => URL.createObjectURL(f))].slice(0, 5)
-    );
+    setPreviewUrls((prev) => [...prev, ...base64Images].slice(0, 5));
   };
 
   const handleSubmit = async () => {
@@ -99,7 +73,9 @@ export default function SellVehicleForm() {
         name: formData.name,
         brand: formData.brand,
         price: Number(formData.price) || 0,
-        date: new Date(Number(formData.date), 0, 1),
+        date: formData.date
+          ? new Date(Number(formData.date), 0, 1)
+          : new Date(),
         status: formData.status as "Mới" | "Cũ",
         description: formData.description,
         images: formData.images,
@@ -242,36 +218,6 @@ export default function SellVehicleForm() {
           ))}
         </div>
       </div>
-
-      {/* <div className="mt-10 p-6 border rounded-xl bg-pink-50">
-        <h3 className="text-lg font-semibold mb-3">AI gợi ý giá bán</h3>
-        {loadingAI ? (
-          <p className="text-gray-500">Đang phân tích dữ liệu thị trường...</p>
-        ) : suggestedPrice ? (
-          <div className="space-y-2">
-            <p className="text-xl font-bold text-pink-700">
-              Giá gợi ý: {suggestedPrice.toLocaleString()} VNĐ
-            </p>
-            {priceRange && (
-              <p className="text-sm text-gray-600">
-                Mức dao động hợp lý: {priceRange[0].toLocaleString()} -{" "}
-                {priceRange[1].toLocaleString()} VNĐ
-              </p>
-            )}
-          </div>
-        ) : (
-          <p className="text-gray-600 italic">
-            Chưa có dữ liệu — nhấn nút bên dưới để lấy gợi ý.
-          </p>
-        )}
-
-        <button
-          onClick={getSuggestedPrice}
-          className="mt-4 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700"
-        >
-          {loadingAI ? "Đang xử lý..." : "Lấy gợi ý giá"}
-        </button>
-      </div> */}
 
       <div className="flex justify-end gap-3 mt-8">
         <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">

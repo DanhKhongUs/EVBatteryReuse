@@ -8,7 +8,7 @@ export interface SellVehicle {
   date: Date;
   status: "Mới" | "Cũ";
   description: string;
-  images: File[];
+  images: string[];
   details: {
     batteryPercentage: string;
     motorCapacity: string;
@@ -20,24 +20,20 @@ export interface SellVehicle {
 
 export const createProduct = async (data: SellVehicle) => {
   try {
-    const formData = new FormData();
+    const payload = {
+      category: data.category,
+      name: data.name,
+      brand: data.brand,
+      price: data.price,
+      date: data.date.toISOString(),
+      status: data.status,
+      description: data.description,
+      images: data.images,
+      details: data.details,
+    };
 
-    formData.append("category", data.category);
-    formData.append("name", data.name);
-    formData.append("brand", data.brand);
-    formData.append("price", data.price.toString());
-    formData.append("date", data.date.toISOString());
-    formData.append("status", data.status);
-    formData.append("description", data.description);
-
-    data.images.forEach((file) => {
-      formData.append("images", file);
-    });
-
-    formData.append("details", JSON.stringify(data.details));
-
-    const res = await httpRequest.post("/products", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+    const res = await httpRequest.post("/products", payload, {
+      headers: { "Content-Type": "application/json" },
     });
 
     return res.data;
