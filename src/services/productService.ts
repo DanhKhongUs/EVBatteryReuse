@@ -6,7 +6,7 @@ export interface SellVehicle {
   brand: string;
   price: number;
   date: Date;
-  status: "Mới" | "Cũ";
+  status: "NEW" | "USED";
   description: string;
   images: string[];
   details: {

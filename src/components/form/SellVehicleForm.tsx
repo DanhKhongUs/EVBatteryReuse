@@ -14,7 +14,7 @@ export default function SellVehicleForm() {
     brand: "",
     price: "",
     date: "",
-    status: "Mới",
+    status: "NEW",
     description: "",
     images: [] as string[],
   });
@@ -76,7 +76,7 @@ export default function SellVehicleForm() {
         date: formData.date
           ? new Date(Number(formData.date), 0, 1)
           : new Date(),
-        status: formData.status as "Mới" | "Cũ",
+        status: formData.status as "NEW" | "USED",
         description: formData.description,
         images: formData.images,
         details: {
@@ -165,8 +165,8 @@ export default function SellVehicleForm() {
             onChange={handleChange}
             className="w-full border rounded-lg p-2"
           >
-            <option value="Mới">Mới</option>
-            <option value="Cũ">Đã qua sử dụng</option>
+            <option value="NEW">Mới</option>
+            <option value="USED">Đã qua sử dụng</option>
           </select>
         </div>
       </div>
