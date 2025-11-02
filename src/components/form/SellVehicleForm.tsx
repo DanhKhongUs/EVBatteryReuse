@@ -14,7 +14,7 @@ export default function SellVehicleForm() {
     brand: "",
     price: "",
     date: "",
-    condition: "Mới",
+    status: "Mới",
     description: "",
     images: [] as File[],
   });
@@ -100,7 +100,7 @@ export default function SellVehicleForm() {
         brand: formData.brand,
         price: Number(formData.price) || 0,
         date: new Date(Number(formData.date), 0, 1),
-        condition: formData.condition as "Mới" | "Cũ",
+        status: formData.status as "Mới" | "Cũ",
         description: formData.description,
         images: formData.images,
         details: {
@@ -184,8 +184,8 @@ export default function SellVehicleForm() {
         <div>
           <label className="block text-sm font-medium mb-1">Tình trạng</label>
           <select
-            name="condition"
-            value={formData.condition}
+            name="status"
+            value={formData.status}
             onChange={handleChange}
             className="w-full border rounded-lg p-2"
           >

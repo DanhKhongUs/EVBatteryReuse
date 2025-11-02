@@ -6,7 +6,7 @@ export interface SellVehicle {
   brand: string;
   price: number;
   date: Date;
-  condition: "Mới" | "Cũ";
+  status: "Mới" | "Cũ";
   description: string;
   images: File[];
   details: {
@@ -27,7 +27,7 @@ export const createProduct = async (data: SellVehicle) => {
     formData.append("brand", data.brand);
     formData.append("price", data.price.toString());
     formData.append("date", data.date.toISOString());
-    formData.append("condition", data.condition);
+    formData.append("status", data.status);
     formData.append("description", data.description);
 
     data.images.forEach((file) => {
