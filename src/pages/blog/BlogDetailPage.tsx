@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Listing } from "../../types";
+import httpRequest from "../../utils/httpRequest";
 
 export default function BlogDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [listing, setListing] = useState<Listing | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("blogs");
-    if (saved) {
-      const data = JSON.parse(saved) as Listing[];
-      const found = data.find((item) => item.id === id);
-      if (found) setListing(found);
+    try {
+      const res = httpRequest.get(`/products/${id}`);
+      setListing(res.data);
+    } catch (error) {
+      console.error(error);
     }
   }, [id]);
 

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { createProduct, SellVehicle } from "../../services/productService";
+import { toast } from "react-toastify";
 
 interface Spec {
   name: string;
@@ -7,13 +9,14 @@ interface Spec {
 
 export default function SellVehicleForm() {
   const [formData, setFormData] = useState({
-    productType: "xe",
+    category: "Xe",
     name: "",
     brand: "",
-    year: "",
-    condition: "mới",
+    price: "",
+    date: "",
+    condition: "Mới",
     description: "",
-    images: [] as string[],
+    images: [] as File[],
   });
 
   const [specs, setSpecs] = useState<Spec[]>([
@@ -24,21 +27,42 @@ export default function SellVehicleForm() {
     { name: "Trọng lượng xe", value: "" },
   ]);
 
-  const [suggestedPrice, setSuggestedPrice] = useState<number | null>(null);
-  const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
-  const [loadingAI, setLoadingAI] = useState(false);
+  // const [suggestedPrice, setSuggestedPrice] = useState<number | null>(null);
+  // const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
+  // const [loadingAI, setLoadingAI] = useState(false);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
-  const getSuggestedPrice = async () => {
-    setLoadingAI(true);
-    await new Promise((r) => setTimeout(r, 1500));
+  // const getSuggestedPrice = async () => {
+  //   setLoadingAI(true);
 
-    const base = Math.random() * 20000000 + 10000000;
-    const low = base - 2000000;
-    const high = base + 2000000;
-    setSuggestedPrice(Math.round(base));
-    setPriceRange([Math.round(low), Math.round(high)]);
-    setLoadingAI(false);
-  };
+  //   const payload: SellVehicle = {
+  //     category: formData.category as "Xe" | "Pin",
+  //     name: formData.name,
+  //     brand: formData.brand,
+  //     price: Number(formData.price),
+  //     date: new Date(Number(formData.date), 0, 1),
+  //     condition: formData.condition as "Mới" | "Cũ",
+  //     description: formData.description,
+  //     images: formData.images,
+  //     details: {
+  //       batteryPercentage: specs[0].value,
+  //       motorCapacity: specs[1].value,
+  //       maximumDistance: specs[2].value,
+  //       chargingTime: specs[3].value,
+  //       weight: specs[4].value,
+  //     },
+  //   };
+
+  //   try {
+  //     const res = await createProduct(payload);
+  //     if (res?.suggestedPrice) setSuggestedPrice(res.suggestedPrice);
+  //     if (res?.priceRange) setPriceRange(res.priceRange);
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setLoadingAI(false);
+  //   }
+  // };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -54,30 +78,47 @@ export default function SellVehicleForm() {
     updated[index].value = value;
     setSpecs(updated);
   };
-
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    const newImages = Array.from(e.target.files).map((file) =>
-      URL.createObjectURL(file)
-    );
+    const files = Array.from(e.target.files);
+
     setFormData((prev) => ({
       ...prev,
-      images: [...prev.images, ...newImages].slice(0, 5),
+      images: [...prev.images, ...files].slice(0, 5),
     }));
+
+    setPreviewUrls((prev) =>
+      [...prev, ...files.map((f) => URL.createObjectURL(f))].slice(0, 5)
+    );
   };
 
-  const handleSubmit = () => {
-    const newListing = {
-      id: Date.now().toString(),
-      ...formData,
-      price: suggestedPrice || 0,
-    };
+  const handleSubmit = async () => {
+    try {
+      const payload: SellVehicle = {
+        category: formData.category as "Xe" | "Pin",
+        name: formData.name,
+        brand: formData.brand,
+        price: Number(formData.price) || 0,
+        date: new Date(Number(formData.date), 0, 1),
+        condition: formData.condition as "Mới" | "Cũ",
+        description: formData.description,
+        images: formData.images,
+        details: {
+          batteryPercentage: specs[0].value,
+          motorCapacity: specs[1].value,
+          maximumDistance: specs[2].value,
+          chargingTime: specs[3].value,
+          weight: specs[4].value,
+        },
+      };
 
-    const existing = JSON.parse(localStorage.getItem("blogs") || "[]");
-    localStorage.setItem("blogs", JSON.stringify([...existing, newListing]));
-
-    alert("Đăng tin thành công!");
-    window.location.href = "/blogs";
+      await createProduct(payload);
+      toast.success("Đăng tin thành công");
+      window.location.href = "/blogs";
+    } catch (error) {
+      console.error(error);
+      toast.error("Đăng tin thất bại!");
+    }
   };
 
   return (
@@ -92,13 +133,13 @@ export default function SellVehicleForm() {
             Loại sản phẩm
           </label>
           <select
-            name="productType"
-            value={formData.productType}
+            name="category"
+            value={formData.category}
             onChange={handleChange}
             className="w-full border rounded-lg p-2"
           >
-            <option value="xe">Xe điện</option>
-            <option value="pin">Pin xe</option>
+            <option value="Xe">Xe điện</option>
+            <option value="Pin">Pin xe</option>
           </select>
         </div>
 
@@ -132,8 +173,8 @@ export default function SellVehicleForm() {
           <label className="block text-sm font-medium mb-1">Năm sản xuất</label>
           <input
             type="number"
-            name="year"
-            value={formData.year}
+            name="date"
+            value={formData.date}
             onChange={handleChange}
             placeholder="2025"
             className="w-full border rounded-lg p-2"
@@ -148,8 +189,8 @@ export default function SellVehicleForm() {
             onChange={handleChange}
             className="w-full border rounded-lg p-2"
           >
-            <option value="mới">Mới</option>
-            <option value="cũ">Đã qua sử dụng</option>
+            <option value="Mới">Mới</option>
+            <option value="Cũ">Đã qua sử dụng</option>
           </select>
         </div>
       </div>
@@ -172,7 +213,7 @@ export default function SellVehicleForm() {
         </label>
         <input type="file" multiple onChange={handleImageUpload} />
         <div className="flex gap-3 mt-3 flex-wrap">
-          {formData.images.map((src, i) => (
+          {previewUrls.map((src, i) => (
             <img
               key={i}
               src={src}
@@ -202,7 +243,7 @@ export default function SellVehicleForm() {
         </div>
       </div>
 
-      <div className="mt-10 p-6 border rounded-xl bg-pink-50">
+      {/* <div className="mt-10 p-6 border rounded-xl bg-pink-50">
         <h3 className="text-lg font-semibold mb-3">AI gợi ý giá bán</h3>
         {loadingAI ? (
           <p className="text-gray-500">Đang phân tích dữ liệu thị trường...</p>
@@ -230,7 +271,7 @@ export default function SellVehicleForm() {
         >
           {loadingAI ? "Đang xử lý..." : "Lấy gợi ý giá"}
         </button>
-      </div>
+      </div> */}
 
       <div className="flex justify-end gap-3 mt-8">
         <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">

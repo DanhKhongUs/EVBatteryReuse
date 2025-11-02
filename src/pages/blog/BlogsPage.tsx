@@ -1,14 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Listing } from "../../types";
+import { getProducts } from "../../services/productService";
 
 export default function BlogsPage() {
   const [listings, setListings] = useState<Listing[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem("blogs");
-    if (saved) setListings(JSON.parse(saved));
+    const fetchListings = async () => {
+      try {
+        const res = await getProducts();
+        setListings(res.data || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchListings();
   }, []);
+
+  if (loading)
+    return (
+      <div className="text-center py-10 text-gray-500">
+        Đang tải tin đăng...
+      </div>
+    );
 
   return (
     <div className="max-w-6xl mx-auto py-10">
