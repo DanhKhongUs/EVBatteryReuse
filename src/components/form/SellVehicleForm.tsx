@@ -9,7 +9,7 @@ interface Spec {
 
 export default function SellVehicleForm() {
   const [formData, setFormData] = useState({
-    category: "Xe",
+    category: "VEHICLE",
     name: "",
     brand: "",
     price: "",
@@ -69,7 +69,7 @@ export default function SellVehicleForm() {
   const handleSubmit = async () => {
     try {
       const payload: SellVehicle = {
-        category: formData.category as "Xe" | "Pin",
+        category: formData.category as "VEHICLE" | "BATTERY",
         name: formData.name,
         brand: formData.brand,
         price: Number(formData.price) || 0,

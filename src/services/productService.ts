@@ -1,7 +1,7 @@
 import httpRequest from "../utils/httpRequest";
 
 export interface SellVehicle {
-  category: "Xe" | "Pin";
+  category: "VEHICLE" | "BATTERY";
   name: string;
   brand: string;
   price: number;
