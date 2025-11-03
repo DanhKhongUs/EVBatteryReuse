@@ -9,7 +9,7 @@ export interface SellVehicle {
   status: "NEW" | "USED";
   description: string;
   images: string[];
-  details: {
+  detail: {
     batteryPercentage: string;
     motorCapacity: string;
     maximumDistance: string;
@@ -29,7 +29,7 @@ export const createProduct = async (data: SellVehicle) => {
       status: data.status,
       description: data.description,
       images: data.images,
-      details: data.details,
+      details: data.detail,
     };
 
     const res = await httpRequest.post("/products", payload, {
@@ -56,7 +56,7 @@ export const getProducts = async () => {
 export const getProductById = async (id: string) => {
   try {
     const res = await httpRequest.get(`/products/${id}`);
-    return res.data;
+    return res.data.data;
   } catch (error) {
     console.error(error);
     throw error;

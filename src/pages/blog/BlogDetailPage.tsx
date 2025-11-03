@@ -115,23 +115,23 @@ export default function BlogDetailPage() {
           <div className="grid md:grid-cols-2 gap-4 text-gray-700">
             <p>
               <span className="font-medium">Dung lượng pin:</span>{" "}
-              {listing.details.batteryPercentage}
+              {listing.detail.batteryPercentage}
             </p>
             <p>
               <span className="font-medium">Công suất động cơ:</span>{" "}
-              {listing.details.motorCapacity}
+              {listing.detail.motorCapacity}
             </p>
             <p>
               <span className="font-medium">Quãng đường tối đa:</span>{" "}
-              {listing.details.maximumDistance}
+              {listing.detail.maximumDistance}
             </p>
             <p>
               <span className="font-medium">Thời gian sạc:</span>{" "}
-              {listing.details.chargingTime}
+              {listing.detail.chargingTime}
             </p>
             <p>
               <span className="font-medium">Trọng lượng:</span>{" "}
-              {listing.details.weight}
+              {listing.detail.weight}
             </p>
           </div>
         </div>
