@@ -135,7 +135,7 @@ export default function SellVehicleForm() {
           <label className="block text-sm font-medium mb-1">Giá</label>
           <input
             type="number"
-            name="brand"
+            name="price"
             value={formData.price}
             onChange={handleChange}
             placeholder="0"
