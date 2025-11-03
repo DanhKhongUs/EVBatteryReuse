@@ -132,6 +132,18 @@ export default function SellVehicleForm() {
         </div>
 
         <div>
+          <label className="block text-sm font-medium mb-1">Giá</label>
+          <input
+            type="number"
+            name="brand"
+            value={formData.price}
+            onChange={handleChange}
+            placeholder="0"
+            className="w-full border rounded-lg p-2"
+          />
+        </div>
+
+        <div>
           <label className="block text-sm font-medium mb-1">
             Hãng sản xuất
           </label>

@@ -1,20 +1,34 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Listing } from "../../types";
-import httpRequest from "../../utils/httpRequest";
+import { getProductById } from "../../services/productService";
 
 export default function BlogDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [listing, setListing] = useState<Listing | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const res = httpRequest.get(`/products/${id}`);
-      setListing(res.data);
-    } catch (error) {
-      console.error(error);
-    }
+    const fetchListing = async () => {
+      try {
+        if (!id) return;
+        const res = await getProductById(id);
+        setListing(res.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchListing();
   }, [id]);
+
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Đang tải dữ liệu...
+      </div>
+    );
 
   if (!listing)
     return (
@@ -52,14 +66,14 @@ export default function BlogDetailPage() {
               <h1 className="text-2xl font-bold text-gray-800 mb-2">
                 {listing.name}
               </h1>
-              <p className="text-gray-600 text-lg mb-1">
+              <p className="text-gray-600 text-lg">
                 Hãng: <span className="font-medium">{listing.brand}</span>
               </p>
-              <p className="text-gray-600 text-lg mb-1">
+              <p className="text-gray-600 text-lg">
                 Năm sản xuất:{" "}
                 <span className="font-medium">{listing.year}</span>
               </p>
-              <p className="text-gray-600 text-lg mb-1">
+              <p className="text-gray-600 text-lg">
                 Tình trạng:{" "}
                 <span className="font-medium capitalize">
                   {listing.condition}

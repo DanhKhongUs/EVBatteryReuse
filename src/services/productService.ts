@@ -52,3 +52,13 @@ export const getProducts = async () => {
     throw error;
   }
 };
+
+export const getProductById = async (id: string) => {
+  try {
+    const res = await httpRequest.get(`/products/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
